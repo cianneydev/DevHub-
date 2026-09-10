@@ -26,3 +26,11 @@ cd devhub
 npm install
 npm run build
 npm link1Enter
+# Ajouter un snippet
+devhub snippet add mon-snippet "console.log('hello')"
+
+# Lister tous les snippets
+devhub snippet list
+
+# Voir l'aide
+devhub --help
