@@ -6,7 +6,6 @@ interface Snippet {
   createdAt: string;
 }
 
-// Reproduit la logique de src/commands/snippet.ts pour tester
 class SnippetStore {
   private snippets: Snippet[] = [];
 
@@ -83,4 +82,4 @@ describe('SnippetStore', () => {
     const result = store.remove('inexistant');
     expect(result).toBe(false);
   });
-});￼Enter
+});
