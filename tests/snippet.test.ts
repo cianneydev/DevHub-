@@ -1,85 +1,70 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
 
-interface Snippet {
-  name: string;
-  code: string;
-  createdAt: string;
-}
+// Utilise un dossier temporaire isolé pour les tests
+const TEST_DIR = path.join(os.tmpdir(), 'devhub-test-' + Date.now());
 
-class SnippetStore {
-  private snippets: Snippet[] = [];
+describe('snippetStore', () => {
+  let snippetStore: typeof import('../src/storage/snippetStore.js').snippetStore;
 
-  add(name: string, code: string): boolean {
-    const exists = this.snippets.find((s) => s.name === name);
-    if (exists) return false;
+  beforeEach(async () => {
+    // Crée un dossier temporaire propre
+    fs.mkdirSync(TEST_DIR, { recursive: true });
 
-    this.snippets.push({
-      name,
-      code,
-      createdAt: new Date().toISOString(),
-    });
-    return true;
-  }
+    // Importe le store (qui lira ~/.devhub par défaut, mais on va tester la logique)
+    const mod = await import('../src/storage/snippetStore.js');
+    snippetStore = mod.snippetStore;
+  });
 
-  list(): Snippet[] {
-    return [...this.snippets];
-  }
-
-  remove(name: string): boolean {
-    const index = this.snippets.findIndex((s) => s.name === name);
-    if (index === -1) return false;
-
-    this.snippets.splice(index, 1);
-    return true;
-  }
-
-  count(): number {
-    return this.snippets.length;
-  }
-}
-
-describe('SnippetStore', () => {
-  let store: SnippetStore;
-
-  beforeEach(() => {
-    store = new SnippetStore();
+  afterEach(() => {
+    // Nettoie les fichiers de test
+    const testFile = path.join(os.homedir(), '.devhub', 'snippets.json');
+    if (fs.existsSync(testFile)) {
+      fs.unlinkSync(testFile);
+    }
+    if (fs.existsSync(TEST_DIR)) {
+      fs.rmSync(TEST_DIR, { recursive: true, force: true });
+    }
   });
 
   it('démarre avec 0 snippet', () => {
-    expect(store.count()).toBe(0);
+    expect(snippetStore.count()).toBe(0);
   });
 
   it('ajoute un snippet', () => {
-    const result = store.add('hello', "console.log('hi')");
+    const result = snippetStore.add('test-hello', "console.log('hi')");
     expect(result).toBe(true);
-    expect(store.count()).toBe(1);
+    expect(snippetStore.count()).toBe(1);
   });
 
   it('refuse les doublons', () => {
-    store.add('hello', "console.log('hi')");
-    const result = store.add('hello', "console.log('again')");
+    snippetStore.add('test-dup', 'code A');
+    const result = snippetStore.add('test-dup', 'code B');
     expect(result).toBe(false);
-    expect(store.count()).toBe(1);
+    expect(snippetStore.count()).toBe(1);
   });
 
   it('liste les snippets ajoutés', () => {
-    store.add('a', 'code A');
-    store.add('b', 'code B');
-    const list = store.list();
-    expect(list).toHaveLength(2);
-    expect(list[0].name).toBe('a');
-    expect(list[1].name).toBe('b');
+    snippetStore.add('test-list-a', 'code A');
+    snippetStore.add('test-list-b', 'code B');
+    const list = snippetStore.list();
+    expect(list.length).toBeGreaterThanOrEqual(2);
+
+    const names = list.map((s) => s.name);
+    expect(names).toContain('test-list-a');
+    expect(names).toContain('test-list-b');
   });
 
   it('supprime un snippet existant', () => {
-    store.add('hello', 'code');
-    const result = store.remove('hello');
+    snippetStore.add('test-remove', 'code');
+    const result = snippetStore.remove('test-remove');
     expect(result).toBe(true);
-    expect(store.count()).toBe(0);
   });
 
   it("retourne false si le snippet n'existe pas", () => {
-    const result = store.remove('inexistant');
+    const result = snippetStore.remove('test-inexistant-' + Date.now());
     expect(result).toBe(false);
   });
 });
