@@ -1,14 +1,6 @@
 import { Command } from 'commander';
 import { logger } from '../utils/logger.js';
-
-interface Snippet {
-  name: string;
-  code: string;
-  createdAt: string;
-}
-
-// Stockage en mémoire (sera remplacé par un fichier plus tard)
-const snippets: Snippet[] = [];
+import { snippetStore } from '../storage/snippetStore.js';
 
 export function registerSnippetCommands(program: Command): void {
   const snippet = program
@@ -20,20 +12,15 @@ export function registerSnippetCommands(program: Command): void {
     .command('add <name> <code>')
     .description('Ajouter un snippet')
     .action((name: string, code: string) => {
-      const exists = snippets.find((s) => s.name === name);
+      const success = snippetStore.add(name, code);
 
-      if (exists) {
+      if (!success) {
         logger.warn(`Le snippet "${name}" existe déjà`);
         return;
       }
 
-      snippets.push({
-        name,
-        code,
-        createdAt: new Date().toISOString(),
-      });
-
       logger.success(`Snippet "${name}" ajouté !`);
+      logger.info(`📁 Stocké dans : ${snippetStore.getStorePath()}`);
     });
 
   // 📋 Lister les snippets
@@ -41,6 +28,8 @@ export function registerSnippetCommands(program: Command): void {
     .command('list')
     .description('Lister tous les snippets')
     .action(() => {
+      const snippets = snippetStore.list();
+
       if (snippets.length === 0) {
         logger.info('Aucun snippet pour le moment.');
         return;
@@ -58,14 +47,13 @@ export function registerSnippetCommands(program: Command): void {
     .command('remove <name>')
     .description('Supprimer un snippet')
     .action((name: string) => {
-      const index = snippets.findIndex((s) => s.name === name);
+      const success = snippetStore.remove(name);
 
-      if (index === -1) {
+      if (!success) {
         logger.error(`Snippet "${name}" introuvable`);
         return;
       }
 
-      snippets.splice(index, 1);
       logger.success(`Snippet "${name}" supprimé`);
     });
 }
