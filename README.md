@@ -2,7 +2,8 @@
 
 > Le hub central du développeur moderne — CLI tout-en-un
 
-[![CI](https://github.com/cianneydev/devhub/actions/workflows/ci.yml/badge.svg)](https://github.com/cianneydev/devhub/actions)
+[![CI](https://github.com/cianneydev/devhub-/actions/workflows/ci.yml/badge.svg)](https://github.com/cianneydev/devhub-/actions)
+[![Release](https://img.shields.io/github/v/release/cianneydev/devhub-?color=blue&label=release)](https://github.com/cianneydev/devhub-/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)](https://www.typescriptlang.org/)
 
@@ -21,7 +22,7 @@
 npm install -g devhub
 
 # Ou depuis les sources
-git clone https://github.com/cianneydev/devhub.git
+git clone https://github.com/cianneydev/devhub-.git
 cd devhub
 npm install
 npm run build
