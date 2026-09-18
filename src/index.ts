@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { Command } from 'commander';
 import { registerSnippetCommands } from './commands/snippet.js';
+import { registerSearchCommand } from './commands/search.js';
 
 const program = new Command();
 
@@ -10,5 +11,6 @@ program
   .version('0.1.0');
 
 registerSnippetCommands(program);
+registerSearchCommand(program);
 
 program.parse(process.argv);
