@@ -1,6 +1,6 @@
 {
   "name": "devhub",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Le hub central du développeur moderne — CLI tout-en-un",
   "type": "module",
   "bin": {
