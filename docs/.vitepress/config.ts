@@ -23,6 +23,7 @@ export default defineConfig({
     { text: 'Notes', link: '/guide/notes' },
     { text: 'Recherche', link: '/guide/search' },
     { text: 'Avancé', link: '/guide/advanced' },
+    { text: 'Interface TUI', link: '/guide/ui' },
   ],
 },
 
