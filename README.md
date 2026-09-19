@@ -10,28 +10,17 @@
 ## ✨ Fonctionnalités
 
 - 📝 **Snippets** — Sauvegardez et retrouvez vos bouts de code
+- 📓 **Notes** — Prenez des notes rapides sans quitter le terminal
 - 🔍 **Recherche rapide** — Retrouvez tout instantanément
-- 🛠️ **Extensible** — Ajoutez vos propres commandes
-- ⚡ **Léger** — Zéro dépendance superflue
+- 📊 **Statistiques** — Visualisez votre utilisation
+- 💾 **Export / Import** — Sauvegardez et restaurez vos données
+- 🖥️ **Interface interactive** — Navigation avec les flèches
+- ⚡ **Léger** — Seulement 4 dépendances
 - 🌍 **Open Source** — MIT, contributions bienvenues
 
 ## 📦 Installation
 
+### Via npm (bientôt disponible)
+
 ```bash
-# Via npm (bientôt disponible)
 npm install -g devhub
-
-# Ou depuis les sources
-git clone https://github.com/cianneydev/devhub-.git
-cd devhub
-npm install
-npm run build
-npm link1Enter
-# Ajouter un snippet
-devhub snippet add mon-snippet "console.log('hello')"
-
-# Lister tous les snippets
-devhub snippet list
-
-# Voir l'aide
-devhub --help
