@@ -17,20 +17,14 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: '🚀 Démarrage',
-        items: [
-          { text: 'Installation', link: '/guide/getting-started' },
-        ],
-      },
-      {
-        text: '📚 Commandes',
-        items: [
-          { text: 'Snippets', link: '/guide/snippets' },
-          { text: 'Notes', link: '/guide/notes' },
-          { text: 'Recherche', link: '/guide/search' },
-        ],
-      },
-    ],
+  text: '📚 Commandes',
+  items: [
+    { text: 'Snippets', link: '/guide/snippets' },
+    { text: 'Notes', link: '/guide/notes' },
+    { text: 'Recherche', link: '/guide/search' },
+    { text: 'Avancé', link: '/guide/advanced' },
+  ],
+},
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/cianneydev/devhub' },
