@@ -43,7 +43,6 @@ export async function mainMenu(): Promise<void> {
         showStats();
       }
     } catch (err) {
-      // Ctrl+C ou ESC
       if ((err as Error).name === 'ExitPromptError') {
         logger.info('👋 À bientôt !');
         return;
@@ -61,5 +60,4 @@ function showStats(): void {
   console.log(`📝 Snippets   : ${snippets.length}`);
   console.log(`📓 Notes      : ${notes.length}`);
   console.log('');
-  console.log('Appuyez sur Entrée pour continuer...');
 }
