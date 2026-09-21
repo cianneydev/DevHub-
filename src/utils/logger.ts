@@ -1,4 +1,4 @@
-here/**
+/**
  * Logger simple pour DevHub
  * Affiche des messages colorés dans le terminal
  */
