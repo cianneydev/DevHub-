@@ -78,11 +78,6 @@ export const snippetStore = {
     return data.snippets.find((s) => s.name === name) ?? null;
   },
 
-get(name: string): Snippet | null {
-  const data = readStore();
-  return data.snippets.find((s) => s.name === name) ?? null;
-},
-
   count(): number {
     return readStore().snippets.length;
   },
