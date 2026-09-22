@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -17,6 +17,7 @@ describe('ui logic', () => {
 
   beforeEach(async () => {
     clearAll();
+    vi.resetModules();
     const sMod = await import('../src/storage/snippetStore.js');
     const nMod = await import('../src/storage/noteStore.js');
     snippetStore = sMod.snippetStore;
@@ -36,10 +37,9 @@ describe('ui logic', () => {
     expect(noteStore.count()).toBe(1);
   });
 
-  it('un snippet ajouté via "add" est récupérable via "get"', () => {
+  it('un snippet ajouté via "add" est récupérable via "list"', () => {
     snippetStore.add('ui-recover', 'mon code');
     const found = snippetStore.list().find((s) => s.name === 'ui-recover');
-
     expect(found).toBeTruthy();
     expect(found?.code).toBe('mon code');
   });
