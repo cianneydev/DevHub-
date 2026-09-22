@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
@@ -19,6 +19,7 @@ describe('import', () => {
 
   beforeEach(async () => {
     clearAll();
+    vi.resetModules();
     const sMod = await import('../src/storage/snippetStore.js');
     const nMod = await import('../src/storage/noteStore.js');
     snippetStore = sMod.snippetStore;
@@ -40,8 +41,6 @@ describe('import', () => {
     };
 
     fs.writeFileSync(IMPORT_FILE, JSON.stringify(data), 'utf-8');
-
-    // Simule la logique d'import
     const raw = fs.readFileSync(IMPORT_FILE, 'utf-8');
     const parsed = JSON.parse(raw);
 
@@ -64,7 +63,6 @@ describe('import', () => {
     };
 
     fs.writeFileSync(IMPORT_FILE, JSON.stringify(data), 'utf-8');
-
     const raw = fs.readFileSync(IMPORT_FILE, 'utf-8');
     const parsed = JSON.parse(raw);
 
@@ -85,7 +83,6 @@ describe('import', () => {
     };
 
     fs.writeFileSync(IMPORT_FILE, JSON.stringify(data), 'utf-8');
-
     const raw = fs.readFileSync(IMPORT_FILE, 'utf-8');
     const parsed = JSON.parse(raw);
 
